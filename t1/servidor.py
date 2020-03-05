@@ -24,6 +24,8 @@ servidor.bind((enderecoIP, porta))
 # Habilia o servidor a aceitar conexoes, 10 -> numero maximo de conexoes
 servidor.listen(10)
 
+print("Servidor iniciado.\nIP: " + enderecoIP + "\n" +"Porta: " + str(porta))
+
 # Lista de clientes, inicialmente vazia
 listaDeClientes = []
 
@@ -41,10 +43,10 @@ def threadDoCliente(conexao, endereco):
 			if mensagem: 
 
 				# Mostra quem mandou a mensagem + a mensagem
-				print "<" + endereco[0] + "> " + mensagem 
+				print "[" + endereco[0] + "]: " + mensagem 
 
 				# Chama a funcao transmitir para enviar a mensagem para todos os clientes
-				mensagemTransmitida = "<" + endereco[0] + "> " + mensagem 
+				mensagemTransmitida = "[" + endereco[0] + "]: " + mensagem 
 				transmitir(mensagemTransmitida, conexao) 
 
 			else: 
