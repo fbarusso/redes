@@ -11,6 +11,8 @@ if len(sys.argv) != 3:
 	print("Parametros incorretos. Utilize cliente enderecoDoServidor portaDoServidor")
 	exit()
 
+nickname = str(input("Nickname: "))
+
 # Primeiro agumento -> enderecoDoServidor. Segundo argumento -> portaDoServidor.
 enderecoDoServidor = str(sys.argv[1])
 portaDoServidor = int(sys.argv[2])
@@ -43,7 +45,7 @@ while True:
 		# Enviar mensagem para o servidor.
 		else:
 			mensagem = sys.stdin.readline()
-			socketDoServidor.send(mensagem.encode())
+			socketDoServidor.send((" <" + nickname + "> " + mensagem).encode())
 			sys.stdout.write("[Voce]: ")
 			sys.stdout.write(mensagem)
 			sys.stdout.flush()

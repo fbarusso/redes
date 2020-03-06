@@ -45,7 +45,7 @@ def threadDoCliente(socketDoCliente, enderecoDoCliente):
 			# Ao receber a mensagem.
 			if mensagemRecebida: 
 				# Mostra o endereco do cliente + a mensagem.
-				print("[" + enderecoDoCliente[0] + "]: " + mensagemRecebida) 
+				print("[" + enderecoDoCliente[0] + "]" + mensagemRecebida) 
 
 				# Chama a funcao transmitirMensagem para enviar a mensagem para todos os clientes.
 				mensagemASerTransmitida = "[" + enderecoDoCliente[0] + "]: " + mensagemRecebida 
