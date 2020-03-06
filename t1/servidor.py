@@ -39,39 +39,39 @@ def threadDoCliente(socketDoCliente, enderecoDoCliente):
 	while True:
 		try:
 			# Recebe dados do do socket do cliente. 2048 -> buffer size.
-			mensagemRecebida = socketDoCliente.recv(2048) 
+			# A mensagem chega em bytes, por isso e necessario o decode.
+			mensagemRecebida = socketDoCliente.recv(2048).decode()
 
 			# Ao receber a mensagem.
 			if mensagemRecebida: 
 				# Mostra o endereco do cliente + a mensagem.
-				# A mensagem chega em bytes, por isso e necessario o decode.
-				print("[" + enderecoDoCliente[0] + "]: " + mensagemRecebida.decode()) 
+				print("[" + enderecoDoCliente[0] + "]: " + mensagemRecebida) 
 
 				# Chama a funcao transmitirMensagem para enviar a mensagem para todos os clientes.
 				mensagemASerTransmitida = "[" + enderecoDoCliente[0] + "]: " + mensagemRecebida 
 				transmitirMensagem(mensagemASerTransmitida, socketDoCliente) 
 
 			else:
-				# Se a mensagem nao houver conteudo, remove o socket do cliente.
-				remove(socketDoCliente)
+				# Se a mensagem nao houver conteudo, removerCliente o socket do cliente.
+				removerCliente(socketDoCliente)
 
 		except:
 			continue
 
-# Transmite a mensagem para todos os clientes com objetos socket diferente de quem enviou
+# Transmite a mensagem para todos os clientes com objeto socket diferente de quem enviou.
 def transmitirMensagem(mensagemASerTransmitida, socketDoCliente):
 	for cliente in listaDeClientes:
 		if cliente!=socketDoCliente:
 			try:
-				# Envia a mensagem
+				# Envia a mensagem.
 				cliente.send(mensagemASerTransmitida.encode())
 			except:
-				# Se a socketDoCliente estiver quebrada, remove-a
+				# ELimina a conexao caso ela estiver quebrada.
 				cliente.close()
-				remove(clients)
+				removerCliente(cliente)
 
-# Remove o cliente da listaDeClientes
-def remover(socketDoCliente): 
+# Remove o cliente da listaDeClientes.
+def removerCliente(socketDoCliente): 
 	if socketDoCliente in listaDeClientes: 
 		listaDeClientes.remove(socketDoCliente)
 
