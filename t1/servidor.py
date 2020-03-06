@@ -1,7 +1,7 @@
 import socket 
 import select 
 import sys 
-from thread import *
+import _thread
 
 # Configuracoes do socket
 servidor = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -9,7 +9,7 @@ servidor.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
 # Checa se a quantidade de parametros esta correta
 if len(sys.argv) != 3:
-	print "Numero de parametros incorreto. Utilize servidor ip porta"
+	print("Numero de parametros incorreto. Utilize servidor ip porta")
 	exit()
 
 # enderecoIP = primeiro argumento
@@ -32,7 +32,7 @@ listaDeClientes = []
 def threadDoCliente(conexao, endereco):
 
 	# Envia uma mensagem ao cliente cujo objeto e conexao
-	conexao.send("Entrou no chat.")
+	conexao.send("Entrou no chat.".encode())
 
 	while True:
 		try:
@@ -43,7 +43,7 @@ def threadDoCliente(conexao, endereco):
 			if mensagem: 
 
 				# Mostra quem mandou a mensagem + a mensagem
-				print "[" + endereco[0] + "]: " + mensagem 
+				print("[" + endereco[0] + "]: " + mensagem.decode()) 
 
 				# Chama a funcao transmitir para enviar a mensagem para todos os clientes
 				mensagemTransmitida = "[" + endereco[0] + "]: " + mensagem 
@@ -61,7 +61,7 @@ def transmitir(mensagem, conexao):
 	for clientes in listaDeClientes:
 		if clientes!=conexao:
 			try:
-				clientes.send(mensagem)
+				clientes.send(mensagem.encode())
 			except:
 				clientes.close()
 
@@ -84,10 +84,10 @@ while True:
 	listaDeClientes.append(conexao) 
 
 	# Mostra o endereco do cliente que se conectou
-	print endereco[0] + " se conectou"
+	print(endereco[0] + " se conectou")
 
 	# Cria uma thread individual para cada cliente
-	start_new_thread(threadDoCliente,(conexao,endereco))	 
+	_thread.start_new_thread(threadDoCliente,(conexao,endereco))	 
 
 conexao.close() 
 servidor.close()  

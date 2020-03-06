@@ -8,7 +8,7 @@ servidor.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
 # Checa se a quantidade de parametros esta correta
 if len(sys.argv) != 3:
-	print "Numero de parametros incorreto. Utilize servidor ip porta"
+	print("Numero de parametros incorreto. Utilize servidor ip porta")
 	exit()
 
 # enderecoIP = primeiro argumento
@@ -33,10 +33,10 @@ while True:
 	for sockets in socketsDeLeitura:
 		if sockets == servidor:
 			mensagem = sockets.recv(2048)
-			print mensagem
+			print(mensagem.decode())
 		else:
 			mensagem = sys.stdin.readline()
-			servidor.send(mensagem)
+			servidor.send(mensagem.encode())
 			sys.stdout.write("[Voce]: ")
 			sys.stdout.write(mensagem)
 			sys.stdout.flush()
